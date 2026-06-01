@@ -1,0 +1,1269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Happy Birthday, Salwa 🌹</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Great+Vibes&family=Jost:wght@200;300;400&display=swap" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+<style>
+  :root {
+    --cream: #fdf6f0;
+    --blush: #f5c6cb;
+    --rose: #e8879a;
+    --deep-rose: #c45e78;
+    --rosegold: #b76e79;
+    --gold: #d4a847;
+    --gold-light: #f0d080;
+    --petal: #fce8ec;
+    --wine: #7b2d42;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--cream);
+    font-family: 'Jost', sans-serif;
+    overflow-x: hidden;
+    color: #3d1520;
+  }
+
+  /* ── Floating Particles Canvas ─────────────────── */
+  #particles-canvas {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ── Hero ────────────────────────────────────────── */
+  #hero {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(145deg, #fdf0f3 0%, #fce4ea 40%, #f5c6d0 100%);
+    transition: opacity 0.9s ease, visibility 0.9s ease;
+  }
+  #hero.hidden { opacity: 0; visibility: hidden; }
+
+  .hero-glow {
+    position: absolute;
+    width: 420px; height: 420px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(212,168,71,0.18) 0%, transparent 70%);
+    top: 50%; left: 50%;
+    transform: translate(-50%,-50%);
+    animation: pulse-glow 3s ease-in-out infinite;
+  }
+
+  @keyframes pulse-glow {
+    0%,100% { transform: translate(-50%,-50%) scale(1); opacity: 0.6; }
+    50% { transform: translate(-50%,-50%) scale(1.2); opacity: 1; }
+  }
+
+  .hero-heart {
+    font-size: 6rem;
+    animation: float-heart 3s ease-in-out infinite;
+    filter: drop-shadow(0 0 20px rgba(196,94,120,0.5));
+    position: relative; z-index: 1;
+  }
+
+  @keyframes float-heart {
+    0%,100% { transform: translateY(0) rotate(-5deg); }
+    50% { transform: translateY(-18px) rotate(5deg); }
+  }
+
+  .hero-title {
+    font-family: 'Great Vibes', cursive;
+    font-size: clamp(3rem, 10vw, 5.5rem);
+    color: var(--deep-rose);
+    text-shadow: 0 2px 24px rgba(196,94,120,0.3);
+    position: relative; z-index: 1;
+    letter-spacing: 0.02em;
+  }
+
+  .hero-subtitle {
+    font-family: 'Jost', sans-serif;
+    font-weight: 200;
+    letter-spacing: 0.35em;
+    font-size: clamp(0.65rem, 2.5vw, 0.85rem);
+    color: var(--rosegold);
+    text-transform: uppercase;
+    position: relative; z-index: 1;
+  }
+
+  .open-btn {
+    position: relative; z-index: 1;
+    background: linear-gradient(135deg, var(--deep-rose), var(--rosegold));
+    color: white;
+    border: none;
+    padding: 1rem 2.8rem;
+    border-radius: 50px;
+    font-family: 'Jost', sans-serif;
+    font-weight: 300;
+    letter-spacing: 0.2em;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    cursor: pointer;
+    box-shadow: 0 8px 30px rgba(196,94,120,0.4);
+    transition: transform 0.25s, box-shadow 0.25s;
+    overflow: hidden;
+  }
+  .open-btn::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(135deg, rgba(255,255,255,0.2), transparent);
+    border-radius: 50px;
+  }
+  .open-btn:hover { transform: translateY(-3px) scale(1.03); box-shadow: 0 14px 40px rgba(196,94,120,0.5); }
+  .open-btn:active { transform: scale(0.97); }
+
+  /* ── Main Content ────────────────────────────────── */
+  #main-content {
+    opacity: 0;
+    transition: opacity 1s ease 0.3s;
+    position: relative; z-index: 1;
+  }
+  #main-content.visible { opacity: 1; }
+
+  /* ── Music Btn ───────────────────────────────────── */
+  #music-btn {
+    position: fixed;
+    top: 1.2rem; right: 1.2rem;
+    z-index: 200;
+    width: 44px; height: 44px;
+    border-radius: 50%;
+    border: 1.5px solid rgba(196,94,120,0.4);
+    background: rgba(253,246,240,0.85);
+    backdrop-filter: blur(8px);
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.2rem;
+    transition: transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 4px 16px rgba(196,94,120,0.2);
+  }
+  #music-btn:hover { transform: scale(1.1); box-shadow: 0 6px 20px rgba(196,94,120,0.35); }
+  #music-btn.playing { animation: spin-slow 4s linear infinite; }
+  @keyframes spin-slow { to { transform: rotate(360deg); } }
+
+  /* ── Section Spacing ─────────────────────────────── */
+  section { padding: 5rem 1.5rem; }
+  .section-label {
+    font-family: 'Jost', sans-serif;
+    font-weight: 200;
+    letter-spacing: 0.4em;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 0.5rem;
+  }
+  .section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2.2rem, 6vw, 3.5rem);
+    font-weight: 300;
+    line-height: 1.15;
+    color: var(--wine);
+  }
+
+  /* ── Typing Banner ────────────────────────────────── */
+  #typing-section {
+    background: linear-gradient(160deg, #fce4ea 0%, #fdf6f0 100%);
+    border-top: 1px solid rgba(212,168,71,0.2);
+    border-bottom: 1px solid rgba(212,168,71,0.2);
+    text-align: center;
+    padding: 4rem 1.5rem;
+  }
+  #typing-text {
+    font-family: 'Great Vibes', cursive;
+    font-size: clamp(2.5rem, 8vw, 4.5rem);
+    color: var(--deep-rose);
+    min-height: 1.3em;
+    display: inline-block;
+  }
+  .cursor {
+    display: inline-block;
+    width: 3px; height: 0.85em;
+    background: var(--rose);
+    margin-left: 2px;
+    vertical-align: text-bottom;
+    animation: blink 0.8s step-end infinite;
+  }
+  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+
+  /* ── Envelope / Letter ───────────────────────────── */
+  #letter-section { background: var(--cream); }
+
+  .envelope-wrapper {
+    perspective: 1200px;
+    max-width: 560px;
+    margin: 0 auto;
+    cursor: pointer;
+  }
+
+  .envelope {
+    position: relative;
+    width: 100%;
+    padding-top: 68%;
+    border-radius: 4px;
+    transform-style: preserve-3d;
+  }
+
+  .env-body {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(160deg, #fce8ec, #fdf6f0);
+    border: 1.5px solid rgba(212,168,71,0.35);
+    border-radius: 6px;
+    box-shadow: 0 20px 60px rgba(180,80,100,0.15), 0 4px 12px rgba(0,0,0,0.05);
+    overflow: hidden;
+  }
+
+  /* Envelope diagonal lines */
+  .env-body::before, .env-body::after {
+    content: '';
+    position: absolute;
+    width: 145%;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, rgba(212,168,71,0.3), transparent);
+    top: 50%; left: -22%;
+  }
+  .env-body::before { transform: rotate(-28deg); }
+  .env-body::after { transform: rotate(28deg); }
+
+  .env-flap {
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 52%;
+    background: linear-gradient(160deg, #f9d0d8, #fce4ea);
+    border-bottom: 1.5px solid rgba(212,168,71,0.35);
+    clip-path: polygon(0 0, 100% 0, 50% 100%);
+    transform-origin: top center;
+    transition: transform 0.7s cubic-bezier(0.4,0,0.2,1);
+    z-index: 3;
+  }
+  .envelope.opened .env-flap { transform: rotateX(-180deg); }
+
+  .env-seal {
+    position: absolute;
+    top: 42%; left: 50%;
+    transform: translate(-50%,-50%);
+    width: 48px; height: 48px;
+    background: linear-gradient(135deg, var(--deep-rose), var(--rosegold));
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.4rem;
+    box-shadow: 0 4px 16px rgba(196,94,120,0.4);
+    z-index: 4;
+    transition: transform 0.4s, opacity 0.4s;
+  }
+  .envelope.opened .env-seal { transform: translate(-50%,-50%) scale(0); opacity: 0; }
+
+  .env-hint {
+    position: absolute;
+    bottom: 10px; left: 0; right: 0;
+    text-align: center;
+    font-size: 0.72rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--rosegold);
+    font-family: 'Jost', sans-serif;
+    font-weight: 300;
+    opacity: 0.8;
+    z-index: 5;
+    transition: opacity 0.4s;
+  }
+  .envelope.opened .env-hint { opacity: 0; }
+
+  /* Letter card */
+  .letter-card {
+    max-width: 560px;
+    margin: 1.5rem auto 0;
+    background: white;
+    border: 1px solid rgba(212,168,71,0.2);
+    border-radius: 6px;
+    padding: 2.5rem 2.2rem;
+    box-shadow: 0 8px 40px rgba(180,80,100,0.1);
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+    pointer-events: none;
+    position: relative;
+    overflow: hidden;
+  }
+  .letter-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--rose), var(--gold), var(--rose));
+  }
+  .letter-card.visible { opacity: 1; transform: translateY(0); pointer-events: all; }
+
+  .letter-date {
+    font-family: 'Jost', sans-serif;
+    font-weight: 200;
+    font-size: 0.75rem;
+    letter-spacing: 0.3em;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+  }
+  .letter-body {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1rem, 2.5vw, 1.15rem);
+    line-height: 1.9;
+    color: #3d1520;
+    font-style: italic;
+    min-height: 6em;
+  }
+  .letter-sig {
+    font-family: 'Great Vibes', cursive;
+    font-size: 2rem;
+    color: var(--deep-rose);
+    margin-top: 1.5rem;
+  }
+
+  /* ── Starry Sky Section ──────────────────────────── */
+  #sky-section {
+    background: radial-gradient(ellipse at 50% 0%, #1a0520 0%, #0d0118 50%, #060010 100%);
+    position: relative;
+    overflow: hidden;
+    min-height: 100vh;
+    padding: 5rem 1rem 6rem;
+    text-align: center;
+  }
+
+  /* Milky way band */
+  #sky-section::before {
+    content: '';
+    position: absolute;
+    top: 0; left: -20%; right: -20%; bottom: 0;
+    background: radial-gradient(ellipse 80% 40% at 60% 30%, rgba(180,100,200,0.07) 0%, transparent 70%),
+                radial-gradient(ellipse 60% 30% at 30% 60%, rgba(100,60,180,0.06) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  /* Canvas for twinkling star field */
+  #star-canvas {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* Age counter card */
+  .age-counter {
+    position: relative;
+    z-index: 2;
+    display: inline-flex;
+    gap: 0.6rem;
+    align-items: flex-end;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin: 2.5rem auto 0.5rem;
+  }
+
+  .age-unit {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .age-number {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2.8rem, 10vw, 5rem);
+    font-weight: 300;
+    line-height: 1;
+    background: linear-gradient(180deg, #fff9e6 0%, var(--gold-light) 50%, var(--gold) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    filter: drop-shadow(0 0 20px rgba(212,168,71,0.5));
+    min-width: 2ch;
+    text-align: center;
+  }
+
+  .age-label {
+    font-family: 'Jost', sans-serif;
+    font-weight: 200;
+    font-size: 0.6rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: rgba(212,168,71,0.55);
+    margin-top: 0.2rem;
+  }
+
+  .age-sep {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2rem, 7vw, 3.5rem);
+    font-weight: 300;
+    color: rgba(212,168,71,0.35);
+    line-height: 1;
+    padding-bottom: 0.5rem;
+  }
+
+  /* Star tooltip */
+  #star-canvas { cursor: crosshair; }
+
+  .star-tooltip {
+    position: fixed;
+    background: rgba(15,5,25,0.92);
+    border: 1px solid rgba(212,168,71,0.4);
+    border-radius: 10px;
+    padding: 0.75rem 1.1rem;
+    pointer-events: none;
+    z-index: 300;
+    max-width: 200px;
+    text-align: center;
+    backdrop-filter: blur(8px);
+    box-shadow: 0 8px 30px rgba(0,0,0,0.5), 0 0 20px rgba(212,168,71,0.1);
+    transform: translate(-50%, -130%);
+    opacity: 0;
+    transition: opacity 0.25s;
+  }
+  .star-tooltip.show { opacity: 1; }
+  .star-tooltip-number {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.75rem;
+    color: var(--gold);
+    letter-spacing: 0.2em;
+    display: block;
+    margin-bottom: 0.3rem;
+  }
+  .star-tooltip-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 0.95rem;
+    color: rgba(252,232,236,0.92);
+    line-height: 1.5;
+  }
+
+  /* Shooting star */
+  @keyframes shoot {
+    0%   { transform: translateX(0) translateY(0) scaleX(1); opacity: 1; }
+    80%  { opacity: 1; }
+    100% { transform: translateX(320px) translateY(180px) scaleX(3); opacity: 0; }
+  }
+
+  /* Hint text */
+  .sky-hint {
+    font-family: 'Jost', sans-serif;
+    font-weight: 200;
+    font-size: 0.72rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: rgba(212,168,71,0.4);
+    position: relative;
+    z-index: 2;
+    margin-top: 0.5rem;
+    animation: hint-pulse 3s ease-in-out infinite;
+  }
+  @keyframes hint-pulse {
+    0%,100% { opacity: 0.5; }
+    50% { opacity: 1; }
+  }
+
+  /* DOB badge */
+  .dob-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(212,168,71,0.25);
+    border-radius: 50px;
+    padding: 0.5rem 1.4rem;
+    margin-top: 1.8rem;
+    position: relative;
+    z-index: 2;
+  }
+  .dob-badge span {
+    font-family: 'Jost', sans-serif;
+    font-weight: 200;
+    font-size: 0.78rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: rgba(212,168,71,0.7);
+  }
+
+  /* ── "I Love You" ────────────────────────────────── */
+  #iloveyou-section {
+    background: linear-gradient(160deg, var(--wine) 0%, #5a1a2e 100%);
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  #iloveyou-section::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse at 50% 50%, rgba(212,168,71,0.12) 0%, transparent 70%);
+  }
+
+  .ily-words {
+    display: flex; flex-wrap: wrap;
+    justify-content: center;
+    gap: 1.2rem 2.5rem;
+  }
+
+  .ily-word {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.4rem, 4vw, 2.2rem);
+    font-weight: 300;
+    color: rgba(252,232,236,0.85);
+    position: relative;
+    cursor: default;
+    transition: color 0.3s, text-shadow 0.3s;
+    letter-spacing: 0.05em;
+  }
+  .ily-word:hover {
+    color: var(--gold-light);
+    text-shadow: 0 0 30px rgba(212,168,71,0.7);
+  }
+
+  .ily-main {
+    font-family: 'Great Vibes', cursive;
+    font-size: clamp(4rem, 14vw, 8rem);
+    color: white;
+    display: block;
+    text-shadow: 0 0 60px rgba(240,208,128,0.5);
+    animation: heartbeat 1.5s ease-in-out infinite;
+    position: relative; z-index: 1;
+  }
+  @keyframes heartbeat {
+    0%,100% { transform: scale(1); text-shadow: 0 0 40px rgba(240,208,128,0.4); }
+    14% { transform: scale(1.04); text-shadow: 0 0 80px rgba(240,208,128,0.7); }
+    28% { transform: scale(1); }
+    42% { transform: scale(1.025); text-shadow: 0 0 60px rgba(240,208,128,0.6); }
+    70% { transform: scale(1); }
+  }
+
+  .ily-lang-label {
+    font-family: 'Jost', sans-serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    color: rgba(255,255,255,0.35);
+    display: block;
+    text-align: center;
+    text-transform: uppercase;
+    margin-top: 0.2rem;
+  }
+
+  /* ── Footer ──────────────────────────────────────── */
+  footer {
+    background: linear-gradient(160deg, #5a1a2e, var(--wine));
+    text-align: center;
+    padding: 3rem 1.5rem 4rem;
+    position: relative;
+  }
+
+  .footer-heart {
+    font-size: 2rem;
+    display: block;
+    animation: float-heart 2.5s ease-in-out infinite;
+    margin-bottom: 0.8rem;
+  }
+
+  /* ── Reveal animations ───────────────────────────── */
+  .reveal {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+  .reveal.in-view { opacity: 1; transform: translateY(0); }
+
+  /* ── Gold divider ────────────────────────────────── */
+  .gold-divider {
+    width: 80px; height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    margin: 1.2rem auto;
+  }
+
+  /* ── Floating hearts background particles ─────────── */
+  @keyframes float-up {
+    0% { transform: translateY(0) rotate(0deg) scale(1); opacity: 0.7; }
+    100% { transform: translateY(-100vh) rotate(360deg) scale(0.5); opacity: 0; }
+  }
+
+  .bg-particle {
+    position: fixed;
+    bottom: -20px;
+    pointer-events: none;
+    z-index: 0;
+    animation: float-up linear infinite;
+    font-size: 1rem;
+    opacity: 0;
+  }
+</style>
+</head>
+<body>
+
+<!-- Audio (swap src with your music URL) -->
+<audio id="bg-music" loop>
+  <source src="Another_Turn_Salwa.mp3" type="audio/mpeg" />
+</audio>
+
+<!-- Music Toggle -->
+<button id="music-btn" title="Toggle music" style="display:none">🎵</button>
+
+<!-- Hero Screen -->
+<div id="hero">
+  <div class="hero-glow"></div>
+  <div class="hero-heart">💝</div>
+  <div style="height:1.5rem"></div>
+  <h1 class="hero-title">Salwa</h1>
+  <div style="height:0.6rem"></div>
+  <p class="hero-subtitle">A little something, just for you</p>
+  <div style="height:2.5rem"></div>
+  <button class="open-btn" onclick="openSurprise()">✨ &nbsp;Open Your Surprise</button>
+</div>
+
+<!-- Main Content -->
+<div id="main-content">
+
+  <!-- Typing Section -->
+  <section id="typing-section">
+    <div class="section-label" style="text-align:center">Happy Birthday</div>
+    <div class="gold-divider"></div>
+    <div>
+      <span id="typing-text"></span><span class="cursor"></span>
+    </div>
+  </section>
+
+  <!-- Envelope / Letter Section -->
+  <section id="letter-section">
+    <div class="reveal" style="text-align:center;margin-bottom:3rem">
+      <div class="section-label">From the Heart</div>
+      <div class="gold-divider"></div>
+      <h2 class="section-title">A Letter for You</h2>
+      <p style="font-family:'Jost',sans-serif;font-weight:200;color:var(--rosegold);margin-top:0.6rem;letter-spacing:0.1em;font-size:0.85rem">Tap the envelope to open your letter</p>
+    </div>
+
+    <div class="envelope-wrapper reveal" onclick="openEnvelope()">
+      <div class="envelope" id="envelope">
+        <div class="env-body"></div>
+        <div class="env-flap"></div>
+        <div class="env-seal">💌</div>
+        <div class="env-hint">tap to open</div>
+      </div>
+    </div>
+
+    <div class="letter-card" id="letter-card">
+      <div class="letter-date" id="letter-date"></div>
+      <div class="letter-body" id="letter-body"></div>
+      <div class="letter-sig">Forever Yours ♡</div>
+    </div>
+  </section>
+
+  <!-- Starry Sky Section -->
+  <section id="sky-section">
+    <canvas id="star-canvas"></canvas>
+    <div id="star-tooltip" class="star-tooltip">
+      <span class="star-tooltip-number" id="tt-num"></span>
+      <span class="star-tooltip-text" id="tt-text"></span>
+    </div>
+
+    <!-- Header -->
+    <div style="position:relative;z-index:2" class="reveal">
+      <div class="section-label" style="color:rgba(212,168,71,0.65)">Written in the Stars</div>
+      <div style="width:80px;height:1px;background:linear-gradient(90deg,transparent,rgba(212,168,71,0.4),transparent);margin:1rem auto"></div>
+      <h2 class="section-title" style="color:rgba(255,240,248,0.92)">Every Star Is a Reason<br>I Love You</h2>
+      <p class="sky-hint">✦ &nbsp; tap any star to reveal a reason &nbsp; ✦</p>
+    </div>
+
+    <!-- Age Ticker -->
+    <div class="reveal" style="position:relative;z-index:2">
+      <div class="age-counter" id="age-counter">
+        <div class="age-unit">
+          <span class="age-number" id="age-years">0</span>
+          <span class="age-label">Years</span>
+        </div>
+        <span class="age-sep">·</span>
+        <div class="age-unit">
+          <span class="age-number" id="age-months">0</span>
+          <span class="age-label">Months</span>
+        </div>
+        <span class="age-sep">·</span>
+        <div class="age-unit">
+          <span class="age-number" id="age-days">0</span>
+          <span class="age-label">Days</span>
+        </div>
+        <span class="age-sep">·</span>
+        <div class="age-unit">
+          <span class="age-number" id="age-hours">0</span>
+          <span class="age-label">Hours</span>
+        </div>
+        <span class="age-sep">·</span>
+        <div class="age-unit">
+          <span class="age-number" id="age-mins">0</span>
+          <span class="age-label">Mins</span>
+        </div>
+        <span class="age-sep">·</span>
+        <div class="age-unit">
+          <span class="age-number" id="age-secs">0</span>
+          <span class="age-label">Secs</span>
+        </div>
+      </div>
+      <p style="font-family:'Jost',sans-serif;font-weight:200;font-size:0.62rem;letter-spacing:0.3em;text-transform:uppercase;color:rgba(212,168,71,0.4);position:relative;z-index:2;margin-top:0.6rem">Time Salwa has graced this world</p>
+
+      <!-- DOB Badge -->
+      <div class="dob-badge">
+        <span>🌹</span>
+        <span>Born · 04 June 2005</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- I Love You Section -->
+  <section id="iloveyou-section">
+    <div class="reveal">
+      <div class="section-label" style="color:rgba(212,168,71,0.7)">Always & Forever</div>
+      <div style="width:80px;height:1px;background:linear-gradient(90deg,transparent,rgba(212,168,71,0.5),transparent);margin:1rem auto"></div>
+    </div>
+
+    <span class="ily-main reveal">I Love You</span>
+
+    <div style="height:3rem"></div>
+
+    <div class="ily-words reveal">
+      <div>
+        <span class="ily-word">أحبكِ</span>
+        <span class="ily-lang-label">Arabic</span>
+      </div>
+      <div>
+        <span class="ily-word">Je t'aime</span>
+        <span class="ily-lang-label">French</span>
+      </div>
+      <div>
+        <span class="ily-word">Te amo</span>
+        <span class="ily-lang-label">Spanish</span>
+      </div>
+      <div>
+        <span class="ily-word">Ti amo</span>
+        <span class="ily-lang-label">Italian</span>
+      </div>
+      <div>
+        <span class="ily-word">Ich liebe dich</span>
+        <span class="ily-lang-label">German</span>
+      </div>
+      <div>
+        <span class="ily-word">Seni seviyorum</span>
+        <span class="ily-lang-label">Turkish</span>
+      </div>
+      <div>
+        <span class="ily-word">मैं तुमसे प्यार करता हूँ</span>
+        <span class="ily-lang-label">Hindi</span>
+      </div>
+      <div>
+        <span class="ily-word">Saranghae</span>
+        <span class="ily-lang-label">Korean</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <span class="footer-heart">💝</span>
+    <p style="font-family:'Great Vibes',cursive;font-size:2.2rem;color:rgba(252,232,236,0.95);margin-bottom:0.6rem">Happy Birthday, Salwa</p>
+    <p style="font-family:'Jost',sans-serif;font-weight:200;letter-spacing:0.25em;font-size:0.72rem;text-transform:uppercase;color:rgba(252,232,236,0.45)">Made with all the love in the world &nbsp;·&nbsp; For you, always</p>
+  </footer>
+
+</div>
+
+<script>
+/* ─── State ─────────────────────────────────────── */
+let envelopeOpened = false;
+let letterTyping = false;
+
+/* ─── Open Surprise ─────────────────────────────── */
+function openSurprise() {
+  // Hide hero
+  document.getElementById('hero').classList.add('hidden');
+
+  // Show main content
+  setTimeout(() => {
+    const main = document.getElementById('main-content');
+    main.classList.add('visible');
+    document.getElementById('music-btn').style.display = 'flex';
+    triggerConfetti();
+    startTyping();
+    initScrollReveal();
+    spawnParticles();
+    initSkyObserver();
+
+    // Attempt autoplay music
+    const music = document.getElementById('bg-music');
+    music.play().then(() => {
+      document.getElementById('music-btn').classList.add('playing');
+    }).catch(() => {
+      // Autoplay blocked — user will use the toggle
+    });
+  }, 300);
+}
+
+/* ─── Confetti ───────────────────────────────────── */
+function triggerConfetti() {
+  const colors = ['#e8879a','#f5c6cb','#d4a847','#f0d080','#fce4ea','#c45e78'];
+  const opts = { particleCount: 90, spread: 80, colors, origin: { y: 0.55 } };
+  confetti({ ...opts, angle: 60, origin: { x: 0.1, y: 0.6 } });
+  confetti({ ...opts, angle: 120, origin: { x: 0.9, y: 0.6 } });
+  setTimeout(() => confetti({ particleCount: 50, spread: 100, colors, origin: { x: 0.5, y: 0.3 }, scalar: 0.8, shapes: ['circle'] }), 400);
+}
+
+/* ─── Typing Banner ──────────────────────────────── */
+const phrases = [
+  'To My Best Friend…',
+  'To My Sunshine…',
+  'To My Love…',
+  'To My Everything…',
+  'Happy Birthday, Salwa 🌹',
+];
+let phraseIdx = 0, charIdx = 0, deleting = false;
+const typingEl = document.getElementById('typing-text');
+
+function startTyping() {
+  typeTick();
+}
+
+function typeTick() {
+  const current = phrases[phraseIdx];
+  if (!deleting) {
+    typingEl.textContent = current.slice(0, ++charIdx);
+    if (charIdx === current.length) {
+      deleting = true;
+      setTimeout(typeTick, 2400);
+      return;
+    }
+  } else {
+    typingEl.textContent = current.slice(0, --charIdx);
+    if (charIdx === 0) {
+      deleting = false;
+      phraseIdx = (phraseIdx + 1) % phrases.length;
+    }
+  }
+  setTimeout(typeTick, deleting ? 45 : 80);
+}
+
+/* ─── Envelope & Letter ──────────────────────────── */
+const LETTER_TEXT = "Dearest Salwa,\n\nHappy Birthday! From the moment you walked into my life, you've made every single day brighter.\n\nYou deserve the world today and every day. I want you to know how deeply you are cherished — in every quiet moment, in every glance, in every beat of my heart.\n\nI love you more than words could ever say.\n\nForever and always,";
+
+function openEnvelope() {
+  if (envelopeOpened) return;
+  envelopeOpened = true;
+
+  document.getElementById('envelope').classList.add('opened');
+
+  setTimeout(() => {
+    const card = document.getElementById('letter-card');
+    card.classList.add('visible');
+
+    // Date
+    document.getElementById('letter-date').textContent = 'Thursday, June 04, 2026';
+
+    // Typewriter
+    typewriterLetter(LETTER_TEXT);
+  }, 700);
+}
+
+function typewriterLetter(text) {
+  if (letterTyping) return;
+  letterTyping = true;
+  const el = document.getElementById('letter-body');
+  el.textContent = '';
+  let i = 0;
+  function tick() {
+    if (i < text.length) {
+      el.textContent += text[i++];
+      // Scroll to keep up
+      el.scrollTop = el.scrollHeight;
+      setTimeout(tick, text[i - 1] === '\n' ? 300 : 28);
+    }
+  }
+  tick();
+}
+
+/* ─── Music Toggle ────────────────────────────────── */
+document.getElementById('music-btn').addEventListener('click', () => {
+  const music = document.getElementById('bg-music');
+  const btn = document.getElementById('music-btn');
+  if (music.paused) {
+    music.play();
+    btn.textContent = '🎵';
+    btn.classList.add('playing');
+  } else {
+    music.pause();
+    btn.textContent = '🔇';
+    btn.classList.remove('playing');
+  }
+});
+
+/* ─── Scroll Reveal ───────────────────────────────── */
+function initScrollReveal() {
+  const revealEls = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('in-view');
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.12 });
+  revealEls.forEach(el => observer.observe(el));
+}
+
+/* ─── Floating Particles ─────────────────────────── */
+const PARTICLES = ['💗','✨','🌸','💫','🌷','💖','⭐','💕'];
+
+function spawnParticles() {
+  function spawn() {
+    const el = document.createElement('div');
+    el.className = 'bg-particle';
+    el.textContent = PARTICLES[Math.floor(Math.random() * PARTICLES.length)];
+    el.style.left = Math.random() * 100 + 'vw';
+    const duration = 8 + Math.random() * 10;
+    const size = 0.6 + Math.random() * 0.9;
+    el.style.fontSize = size + 'rem';
+    el.style.animationDuration = duration + 's';
+    el.style.animationDelay = Math.random() * 4 + 's';
+    el.style.opacity = '0';
+    document.body.appendChild(el);
+    setTimeout(() => el.remove(), (duration + 5) * 1000);
+    setTimeout(spawn, 600 + Math.random() * 800);
+  }
+  // Kick off several streams
+  for (let i = 0; i < 4; i++) {
+    setTimeout(spawn, i * 400);
+  }
+}
+
+/* ─── Age Counter (DOB: 04 June 2005) ────────────── */
+const SALWA_DOB = new Date('2005-06-04T00:00:00');
+
+function updateAge() {
+  const now = new Date();
+  const diff = now - SALWA_DOB;
+
+  let y = now.getFullYear() - SALWA_DOB.getFullYear();
+  let m = now.getMonth() - SALWA_DOB.getMonth();
+  let d = now.getDate() - SALWA_DOB.getDate();
+  if (d < 0) { m--; d += new Date(now.getFullYear(), now.getMonth(), 0).getDate(); }
+  if (m < 0) { y--; m += 12; }
+
+  const totalSecs = Math.floor(diff / 1000);
+  const h = Math.floor((totalSecs % 86400) / 3600);
+  const min = Math.floor((totalSecs % 3600) / 60);
+  const s = totalSecs % 60;
+
+  document.getElementById('age-years').textContent  = y;
+  document.getElementById('age-months').textContent = m;
+  document.getElementById('age-days').textContent   = d;
+  document.getElementById('age-hours').textContent  = String(h).padStart(2,'0');
+  document.getElementById('age-mins').textContent   = String(min).padStart(2,'0');
+  document.getElementById('age-secs').textContent   = String(s).padStart(2,'0');
+}
+updateAge();
+setInterval(updateAge, 1000);
+
+/* ─── Star Canvas (Reasons I Love You) ────────────── */
+const REASONS = [
+  "Your smile lights up every room",
+  "The way your eyes sparkle when you laugh",
+  "You make ordinary moments magical",
+  "Your kindness knows no bounds",
+  "You are braver than you believe",
+  "The sound of your laughter is my favourite song",
+  "You make me a better person every day",
+  "Your heart is the most beautiful thing about you",
+  "You love deeply and fiercely",
+  "You turn the simplest day into an adventure",
+  "Your strength takes my breath away",
+  "You make the world a more beautiful place",
+  "Every thought of you makes me smile",
+  "You are my home",
+  "You are endlessly, perfectly you",
+  "Your dreams inspire me",
+  "You make loving you the easiest thing in the world",
+  "You are the answer to every wish I ever made",
+  "Your warmth melts every worry away",
+  "You are my forever",
+  "You see the good in everything",
+  "You are more loved than the stars are numbered",
+  "You make my heart feel full",
+  "You are everything I never knew I needed",
+  "Simply because you are Salwa 🌹",
+];
+
+let starCanvas, starCtx, stars = [], animFrame;
+let hoveredStar = null;
+const tooltip = document.getElementById('star-tooltip');
+const ttNum   = document.getElementById('tt-num');
+const ttText  = document.getElementById('tt-text');
+
+function initStarCanvas() {
+  starCanvas = document.getElementById('star-canvas');
+  starCtx = starCanvas.getContext('2d');
+  resizeCanvas();
+  buildStars();
+  renderStars();
+  scheduleShootingStar();
+
+  starCanvas.addEventListener('mousemove', onStarMove);
+  starCanvas.addEventListener('click',     onStarClick);
+  starCanvas.addEventListener('touchstart', onStarTouch, { passive: true });
+  window.addEventListener('resize', () => { resizeCanvas(); buildStars(); });
+}
+
+function resizeCanvas() {
+  const section = document.getElementById('sky-section');
+  starCanvas.width  = section.offsetWidth;
+  starCanvas.height = section.offsetHeight;
+}
+
+function buildStars() {
+  stars = [];
+  const W = starCanvas.width, H = starCanvas.height;
+  // Place reason-stars (clickable, larger)
+  for (let i = 0; i < REASONS.length; i++) {
+    // Avoid centre UI area
+    let x, y, tries = 0;
+    do {
+      x = 40 + Math.random() * (W - 80);
+      y = 40 + Math.random() * (H - 80);
+      tries++;
+    } while (y > H * 0.25 && y < H * 0.62 && tries < 30);
+
+    stars.push({
+      x, y,
+      r: 2.5 + Math.random() * 2,
+      twinkleOffset: Math.random() * Math.PI * 2,
+      twinkleSpeed: 0.6 + Math.random() * 1.2,
+      reason: REASONS[i],
+      index: i,
+      clickable: true,
+      revealed: false,
+      pulsePhase: Math.random() * Math.PI * 2,
+    });
+  }
+  // Fill background with tiny non-clickable stars
+  for (let i = 0; i < 220; i++) {
+    stars.push({
+      x: Math.random() * W,
+      y: Math.random() * H,
+      r: 0.3 + Math.random() * 1.1,
+      twinkleOffset: Math.random() * Math.PI * 2,
+      twinkleSpeed: 0.3 + Math.random() * 0.8,
+      clickable: false,
+    });
+  }
+}
+
+function renderStars() {
+  const W = starCanvas.width, H = starCanvas.height;
+  starCtx.clearRect(0, 0, W, H);
+  const t = performance.now() / 1000;
+
+  for (const s of stars) {
+    const twinkle = 0.4 + 0.6 * Math.abs(Math.sin(t * s.twinkleSpeed + s.twinkleOffset));
+
+    if (s.clickable) {
+      const isHov = s === hoveredStar;
+      const pulse = 0.7 + 0.3 * Math.sin(t * 1.8 + s.pulsePhase);
+      const r = s.r * (isHov ? 2.2 : 1) * pulse;
+
+      // Outer glow
+      const glowR = r * (s.revealed ? 5 : 4);
+      const grd = starCtx.createRadialGradient(s.x, s.y, 0, s.x, s.y, glowR);
+      const col = s.revealed ? 'rgba(240,208,128,' : 'rgba(255,220,240,';
+      grd.addColorStop(0, col + (twinkle * (isHov ? 0.9 : 0.5)) + ')');
+      grd.addColorStop(1, 'rgba(0,0,0,0)');
+      starCtx.beginPath();
+      starCtx.arc(s.x, s.y, glowR, 0, Math.PI * 2);
+      starCtx.fillStyle = grd;
+      starCtx.fill();
+
+      // Star core
+      drawStar(starCtx, s.x, s.y, 5, r, r * 0.45,
+        s.revealed
+          ? `rgba(255,240,180,${twinkle})`
+          : isHov
+            ? `rgba(255,210,230,${twinkle})`
+            : `rgba(255,235,245,${twinkle * 0.85})`
+      );
+
+      // Number label
+      if (isHov || s.revealed) {
+        starCtx.font = `200 ${Math.max(9, r * 2.2)}px 'Jost', sans-serif`;
+        starCtx.fillStyle = s.revealed ? 'rgba(240,208,128,0.9)' : 'rgba(255,230,240,0.7)';
+        starCtx.textAlign = 'center';
+        starCtx.fillText(`#${s.index + 1}`, s.x, s.y - r * 3.5);
+      }
+    } else {
+      // Background tiny star
+      starCtx.beginPath();
+      starCtx.arc(s.x, s.y, s.r * twinkle, 0, Math.PI * 2);
+      starCtx.fillStyle = `rgba(220,200,240,${twinkle * 0.55})`;
+      starCtx.fill();
+    }
+  }
+
+  animFrame = requestAnimationFrame(renderStars);
+}
+
+function drawStar(ctx, cx, cy, spikes, outerR, innerR, color) {
+  let rot = (Math.PI / 2) * 3;
+  const step = Math.PI / spikes;
+  ctx.beginPath();
+  ctx.moveTo(cx, cy - outerR);
+  for (let i = 0; i < spikes; i++) {
+    ctx.lineTo(cx + Math.cos(rot) * outerR, cy + Math.sin(rot) * outerR);
+    rot += step;
+    ctx.lineTo(cx + Math.cos(rot) * innerR, cy + Math.sin(rot) * innerR);
+    rot += step;
+  }
+  ctx.lineTo(cx, cy - outerR);
+  ctx.closePath();
+  ctx.fillStyle = color;
+  ctx.fill();
+}
+
+function getStarAt(x, y) {
+  for (const s of stars) {
+    if (!s.clickable) continue;
+    const dist = Math.hypot(s.x - x, s.y - y);
+    if (dist < Math.max(18, s.r * 5)) return s;
+  }
+  return null;
+}
+
+function onStarMove(e) {
+  const rect = starCanvas.getBoundingClientRect();
+  const x = e.clientX - rect.left;
+  const y = e.clientY - rect.top;
+  const found = getStarAt(x, y);
+  hoveredStar = found;
+  starCanvas.style.cursor = found ? 'pointer' : 'crosshair';
+
+  if (found) {
+    ttNum.textContent  = `Reason #${found.index + 1}`;
+    ttText.textContent = found.reason;
+    tooltip.style.left = (e.clientX) + 'px';
+    tooltip.style.top  = (e.clientY) + 'px';
+    tooltip.classList.add('show');
+  } else {
+    tooltip.classList.remove('show');
+  }
+}
+
+function onStarClick(e) {
+  const rect = starCanvas.getBoundingClientRect();
+  const found = getStarAt(e.clientX - rect.left, e.clientY - rect.top);
+  if (found) {
+    found.revealed = true;
+    found.r += 0.6;
+    spawnClickBurst(e.clientX, e.clientY);
+  }
+}
+
+function onStarTouch(e) {
+  const t = e.touches[0];
+  const rect = starCanvas.getBoundingClientRect();
+  const found = getStarAt(t.clientX - rect.left, t.clientY - rect.top);
+  if (found) {
+    found.revealed = true;
+    hoveredStar = found;
+    ttNum.textContent  = `Reason #${found.index + 1}`;
+    ttText.textContent = found.reason;
+    tooltip.style.left = t.clientX + 'px';
+    tooltip.style.top  = t.clientY + 'px';
+    tooltip.classList.add('show');
+    spawnClickBurst(t.clientX, t.clientY);
+    setTimeout(() => tooltip.classList.remove('show'), 3000);
+  }
+}
+
+function spawnClickBurst(cx, cy) {
+  const emojis = ['✨','💫','⭐','🌟','💖'];
+  for (let i = 0; i < 7; i++) {
+    setTimeout(() => {
+      const el = document.createElement('div');
+      el.style.cssText = `position:fixed;left:${cx}px;top:${cy}px;font-size:${0.9+Math.random()*0.8}rem;pointer-events:none;z-index:500;transition:all 0.9s ease-out;`;
+      el.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+      document.body.appendChild(el);
+      const angle = (Math.random() * 2 * Math.PI);
+      const dist  = 40 + Math.random() * 60;
+      requestAnimationFrame(() => {
+        el.style.transform = `translate(${Math.cos(angle)*dist}px,${Math.sin(angle)*dist}px) scale(0)`;
+        el.style.opacity = '0';
+      });
+      setTimeout(() => el.remove(), 950);
+    }, i * 40);
+  }
+}
+
+function scheduleShootingStar() {
+  const delay = 4000 + Math.random() * 7000;
+  setTimeout(() => {
+    shootingStar();
+    scheduleShootingStar();
+  }, delay);
+}
+
+function shootingStar() {
+  if (!starCtx) return;
+  const W = starCanvas.width, H = starCanvas.height;
+  const sx = Math.random() * W * 0.6;
+  const sy = Math.random() * H * 0.3;
+  const len = 120 + Math.random() * 100;
+  const angle = Math.PI / 5 + Math.random() * Math.PI / 8;
+  let progress = 0;
+
+  function draw() {
+    const ex = sx + Math.cos(angle) * len * progress;
+    const ey = sy + Math.sin(angle) * len * progress;
+    const headX = sx + Math.cos(angle) * len * Math.min(progress + 0.12, 1);
+    const headY = sy + Math.sin(angle) * len * Math.min(progress + 0.12, 1);
+
+    const grad = starCtx.createLinearGradient(sx, sy, headX, headY);
+    grad.addColorStop(0, 'rgba(255,255,220,0)');
+    grad.addColorStop(0.7, 'rgba(255,255,220,0.7)');
+    grad.addColorStop(1, 'rgba(255,255,255,0.95)');
+
+    starCtx.beginPath();
+    starCtx.moveTo(ex, ey);
+    starCtx.lineTo(headX, headY);
+    starCtx.strokeStyle = grad;
+    starCtx.lineWidth = 1.5;
+    starCtx.stroke();
+
+    progress += 0.025;
+    if (progress < 1.15) requestAnimationFrame(draw);
+  }
+  draw();
+}
+
+// Init star canvas when section scrolls into view
+const skyObserver = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting && !starCtx) {
+      initStarCanvas();
+      skyObserver.disconnect();
+    }
+  });
+}, { threshold: 0.05 });
+// Will be called after main content shown
+function initSkyObserver() {
+  const sec = document.getElementById('sky-section');
+  if (sec) skyObserver.observe(sec);
+}
+
+
+</script>
+</body>
+</html>
